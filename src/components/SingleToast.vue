@@ -1,10 +1,16 @@
 <template>
+
   <div class="toast">
-    <div class="header">
-      <h3>{{ toast.title }}</h3>
-    </div>
-    <div class="text">
-      <p>{{ toast.message }}</p>
+    <div class="sidebar" :class="toast.type"></div>
+    <div class="content">
+      <div class="header">
+        <h3>{{ toast.title }}</h3>
+        <button @click="dismissToast"><i class="fa-solid fa-rectangle-xmark"></i></button>
+        
+      </div>
+      <div class="text">
+        <p>{{ toast.message }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -16,11 +22,22 @@ export default {
     toast: { required: true, type: Object }
   },
   created () {
-   
+    //  Automatically dismiss toast after 5 seconds
+    setTimeout(() => {
+      this.dismissToast();
+    }, 5000);
+  },
+  methods: {
+    dismissToast() {
+      this.$store.commit('clearToast', this.toast.title);
+    }
   }
 }
 </script>
+
 <style>
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css');
+
 :root {
   --cream: #faf8f7;
   --light-grey: #e7e7e7;
@@ -88,5 +105,38 @@ export default {
   padding-left: 1rem;
   box-sizing: border-box;
 }
+
+.toast .header, .toast .text {
+  flex-direction: row;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.toast .header {
+  height: 25px;
+  margin-bottom: 1rem;
+}
+
+.toast .header button {
+  margin-left: auto;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+  font-size: 1rem;
+  height: 30px;
+  width: 30px;
+  transition: transform 200ms ease;
+}
+
+.toast .header button:hover {
+  transform: scale(1.3);
+}
+
+.toast .content {
+  flex-grow: 1;
+}
+
+
 
 </style>

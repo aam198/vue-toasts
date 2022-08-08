@@ -1,5 +1,4 @@
 <template>
-
   <div class="toast">
     <div class="sidebar" :class="toast.type"></div>
     <div class="content">
